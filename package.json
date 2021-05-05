@@ -13,6 +13,7 @@
     "@capacitor/core": "2.4.7",
     "@ionic/vue": "^5.4.0",
     "@ionic/vue-router": "^5.4.0",
+    "azure-maps-control": "^2.0.32",
     "core-js": "^3.6.5",
     "ionicons": "^5.5.1",
     "vue": "^3.0.0-0",

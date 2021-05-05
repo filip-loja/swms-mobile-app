@@ -18,28 +18,31 @@
         </ion-toolbar>
       </ion-header>
 
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+			<transition name="fade">
+				<main-spinner class="main-spinner" v-if="!renderMap" />
+			</transition>
 
-				<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-					<ion-badge v-if="filteredTypesCount" color="secondary" class="filter-badge">{{ filteredTypesCount }}</ion-badge>
-					<ion-fab-button @click="showModal('filter')">
-						<ion-icon :icon="funnelOutline" class="ion-color-light" />
-					</ion-fab-button>
-				</ion-fab>
+			<azure-map v-if="renderMap" />
 
-      </div>
+			<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+				<ion-badge v-if="filteredTypesCount" color="secondary" class="filter-badge">{{ filteredTypesCount }}</ion-badge>
+				<ion-fab-button @click="showModal('filter')">
+					<ion-icon :icon="funnelOutline" class="ion-color-light" />
+				</ion-fab-button>
+			</ion-fab>
+
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, modalController, IonFab, IonFabButton, IonBadge } from '@ionic/vue'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref, onMounted } from 'vue'
 import { helpCircleOutline, funnelOutline } from 'ionicons/icons'
 import ModalAbout from '@/components/ModalAbout.vue'
 import ModalFilter from '@/components/ModalFilter.vue'
+import AzureMap from '@/components/AzureMap.vue'
+import MainSpinner from '@/components/MainSpinner.vue'
 import { useStore } from '@/store'
 
 export default defineComponent({
@@ -55,12 +58,19 @@ export default defineComponent({
 		IonIcon,
 		IonFab,
 		IonFabButton,
-		IonBadge
+		IonBadge,
+		AzureMap,
+		MainSpinner
   },
 	setup () {
 		const store = useStore()
 
 		const filteredTypesCount = computed<number>(() => store.state.filteredGarbageTypes.length)
+		const renderMap = ref<boolean>(false)
+
+		onMounted(() => {
+			setTimeout(() => renderMap.value = true, 1500)
+		})
 
 		const modals = {
 			about: ModalAbout,
@@ -82,7 +92,8 @@ export default defineComponent({
 			helpCircleOutline,
 			funnelOutline,
 			showModal,
-			filteredTypesCount
+			filteredTypesCount,
+			renderMap
 		}
 	}
 })
@@ -97,6 +108,21 @@ export default defineComponent({
 		top: -10px;
 		width: 20px;
 		border-radius: 50%;
+	}
+
+	.main-spinner {
+		position: absolute;
+		top: 40%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.fade-enter-active, .fade-leave-active {
+		transition: opacity 1s ease;
+	}
+
+	.fade-enter-from, .fade-leave-to {
+		opacity: 0;
 	}
 
 </style>

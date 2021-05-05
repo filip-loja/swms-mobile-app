@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>SWMS App</ion-title>
 				<ion-buttons slot="end">
-					<ion-button expand="block" @click="showModalAbout">
+					<ion-button expand="block" @click="showModal('about')">
 						<ion-icon slot="icon-only" :icon="helpCircleOutline" />
 					</ion-button>
 				</ion-buttons>
@@ -21,16 +21,24 @@
       <div id="container">
         <strong>Ready to create an app?</strong>
         <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+				<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+					<ion-fab-button @click="showModal('filter')">
+						<ion-icon :icon="funnelOutline" class="ion-color-light" />
+					</ion-fab-button>
+				</ion-fab>
+
       </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, modalController  } from '@ionic/vue'
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, modalController, IonFab, IonFabButton } from '@ionic/vue'
 import { defineComponent } from 'vue'
-import { helpCircleOutline } from 'ionicons/icons'
+import { helpCircleOutline, funnelOutline } from 'ionicons/icons'
 import ModalAbout from '@/components/ModalAbout.vue'
+import ModalFilter from '@/components/ModalFilter.vue'
 
 export default defineComponent({
   name: 'Home',
@@ -42,52 +50,38 @@ export default defineComponent({
     IonToolbar,
 		IonButtons,
 		IonButton,
-		IonIcon
+		IonIcon,
+		IonFab,
+		IonFabButton
   },
 	setup () {
 
-		const showModalAbout = async () => {
+		const modals = {
+			about: ModalAbout,
+			filter: ModalFilter
+		}
+
+		const showModal = async (name: 'about' | 'filter') => {
+			const modalCmp = modals[name]
+			if (!modalCmp) return
+
 			const modal = await modalController
 				.create({
-					component: ModalAbout
+					component: modalCmp
 				})
 			return modal.present()
 		}
 
 		return {
 			helpCircleOutline,
-			showModalAbout
+			funnelOutline,
+			showModal
 		}
 	}
 })
 </script>
 
 <style scoped>
-#container {
-  text-align: center;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
 </style>

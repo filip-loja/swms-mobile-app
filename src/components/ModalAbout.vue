@@ -39,7 +39,7 @@ import { defineComponent } from 'vue'
 import { closeOutline } from 'ionicons/icons'
 
 export default defineComponent({
-	name: 'Modal',
+	name: 'ModalAbout',
 	components: { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonCard, IonCardContent, IonCardTitle, IonCardSubtitle, IonCardHeader, IonAvatar, IonRow },
 	setup () {
 

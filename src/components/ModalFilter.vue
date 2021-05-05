@@ -25,7 +25,7 @@
 		</ion-list>
 
 		<br />
-		<ion-button expand="block" @click="toggleFilter(null)">
+		<ion-button expand="block" @click="toggleFilter(null)" class="tall-btn">
 			Clear all
 		</ion-button>
 

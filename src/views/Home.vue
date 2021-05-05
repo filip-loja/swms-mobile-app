@@ -23,6 +23,7 @@
         <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
 
 				<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+					<ion-badge v-if="filteredTypesCount" color="secondary" class="filter-badge">{{ filteredTypesCount }}</ion-badge>
 					<ion-fab-button @click="showModal('filter')">
 						<ion-icon :icon="funnelOutline" class="ion-color-light" />
 					</ion-fab-button>
@@ -34,11 +35,12 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, modalController, IonFab, IonFabButton } from '@ionic/vue'
-import { defineComponent } from 'vue'
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, modalController, IonFab, IonFabButton, IonBadge } from '@ionic/vue'
+import { computed, defineComponent } from 'vue'
 import { helpCircleOutline, funnelOutline } from 'ionicons/icons'
 import ModalAbout from '@/components/ModalAbout.vue'
 import ModalFilter from '@/components/ModalFilter.vue'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'Home',
@@ -52,9 +54,13 @@ export default defineComponent({
 		IonButton,
 		IonIcon,
 		IonFab,
-		IonFabButton
+		IonFabButton,
+		IonBadge
   },
 	setup () {
+		const store = useStore()
+
+		const filteredTypesCount = computed<number>(() => store.state.filteredGarbageTypes.length)
 
 		const modals = {
 			about: ModalAbout,
@@ -75,7 +81,8 @@ export default defineComponent({
 		return {
 			helpCircleOutline,
 			funnelOutline,
-			showModal
+			showModal,
+			filteredTypesCount
 		}
 	}
 })
@@ -83,5 +90,13 @@ export default defineComponent({
 
 <style scoped>
 
+	.filter-badge {
+		position: absolute;
+		right: 0;
+		z-index: 10;
+		top: -10px;
+		width: 20px;
+		border-radius: 50%;
+	}
 
 </style>

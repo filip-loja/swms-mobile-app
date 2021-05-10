@@ -22,7 +22,7 @@
 				<main-spinner class="main-spinner" v-if="!renderMap" />
 			</transition>
 
-			<azure-map v-if="renderMap" />
+			<azure-map v-if="renderMap" @selected="showBinDetail" />
 
 			<ion-fab vertical="bottom" horizontal="end" slot="fixed">
 				<ion-badge v-if="filteredTypesCount" color="secondary" class="filter-badge">{{ filteredTypesCount }}</ion-badge>
@@ -41,9 +41,11 @@ import { computed, defineComponent, ref, onMounted } from 'vue'
 import { helpCircleOutline, funnelOutline } from 'ionicons/icons'
 import ModalAbout from '@/components/ModalAbout.vue'
 import ModalFilter from '@/components/ModalFilter.vue'
+import ModalBinDetail from '@/components/ModalBinDetail.vue'
 import AzureMap from '@/components/AzureMap.vue'
 import MainSpinner from '@/components/MainSpinner.vue'
 import { useStore } from '@/store'
+import {DataPoint} from '@/store/store'
 
 export default defineComponent({
   name: 'Home',
@@ -88,10 +90,22 @@ export default defineComponent({
 			return modal.present()
 		}
 
+		const showBinDetail = async (data: DataPoint) => {
+			const modal = await modalController
+				.create({
+					component: ModalBinDetail,
+					componentProps: {
+						data
+					}
+				})
+			return modal.present()
+		}
+
 		return {
 			helpCircleOutline,
 			funnelOutline,
 			showModal,
+			showBinDetail,
 			filteredTypesCount,
 			renderMap
 		}

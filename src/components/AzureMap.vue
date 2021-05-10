@@ -7,9 +7,11 @@
 import { defineComponent, onMounted, computed } from 'vue'
 import * as atlas from 'azure-maps-control'
 import { useStore } from '@/store'
+import {DataPoint} from '@/store/store'
 export default defineComponent({
 	name: 'AzureMap',
-	setup () {
+	emits: ['selected'],
+	setup (props, { emit }) {
 
 		const store = useStore()
 		const mapKey = computed<string>(() => store.state.azureKey)
@@ -78,7 +80,8 @@ export default defineComponent({
 			})
 
 			const markerClick = (e: any) => {
-				console.log(e.target.properties)
+				const payload: DataPoint = e.target.properties
+				emit('selected', payload)
 			}
 
 			const attachEvents = (markers: any) => {
@@ -87,17 +90,17 @@ export default defineComponent({
 				}
 			}
 
-			const detachEvents = (markers: any) => {
-				for (let i = 0; i < markers.length; i++) {
-					map.events.remove('click', markers[i], markerClick)
-				}
-			}
+			// const detachEvents = (markers: any) => {
+			// 	for (let i = 0; i < markers.length; i++) {
+			// 		map.events.remove('click', markers[i], markerClick)
+			// 	}
+			// }
 
 			attachEvents(markers)
-			setTimeout(() => {
-				detachEvents(markers)
-				console.log('removed')
-			}, 4000)
+			// setTimeout(() => {
+			// 	detachEvents(markers)
+			// 	console.log('removed')
+			// }, 4000)
 
 		})
 

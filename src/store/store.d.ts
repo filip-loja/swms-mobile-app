@@ -10,3 +10,10 @@ export interface StateRoot {
 export interface GarbageTypeDef {
 	[key: TypeGarbage]: string;
 }
+
+export interface DataPoint {
+	id: any;
+	lon: number;
+	lat: number;
+	type: TypeGarbage;
+}

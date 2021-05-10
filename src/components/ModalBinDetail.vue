@@ -24,28 +24,40 @@
 		<div class="garbage-type">
 			{{ garbageType }}
 		</div>
-
 		<br />
-		<ion-button v-if="!reportForm" expand="block" @click="reportForm = true" class="tall-btn">
-			Report problem
-		</ion-button>
+
+		<transition name="slide">
+			<div class="report-form" v-if="reportForm">
+				<ion-textarea placeholder="Write your message here" v-model="reportMessage" rows="6"></ion-textarea>
+				<ion-row class="ion-justify-content-center">
+					<ion-button :disabled="!reportForm" class="tall-btn" @click="finishReportForm(false)" color="warning">Cancel</ion-button>
+					<ion-button :disabled="!reportForm" class="tall-btn" @click="finishReportForm(true)" color="success">Send</ion-button>
+				</ion-row>
+			</div>
+		</transition>
+
+		<transition name="slide">
+			<ion-button v-if="!reportForm" expand="block" @click="reportForm = true" class="tall-btn" :disabled="reportForm">
+				Report problem
+			</ion-button>
+		</transition>
 
 	</ion-content>
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, modalController } from '@ionic/vue'
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, modalController, IonTextarea, IonRow, toastController } from '@ionic/vue'
 import { defineComponent, computed, PropType, ref } from 'vue'
 import { closeOutline } from 'ionicons/icons'
 import { useStore } from '@/store'
 import {DataPoint, GarbageTypeDef} from '@/store/store'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { capitalize, loadFullness } from '@/utils'
+import {capitalize, loadFullness, sendProblemReport} from '@/utils'
 import RadialProgress from '@/components/RadialProgress.vue'
 
 export default defineComponent({
 	name: 'ModalBinDetail',
-	components: { RadialProgress, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon },
+	components: { RadialProgress, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon, IonTextarea, IonRow },
 	props: {
 		data: { type: Object as PropType<DataPoint>, required: true }
 	},
@@ -59,14 +71,32 @@ export default defineComponent({
 		const garbageType = computed<string>(() => capitalize(props.data.type))
 		const latitude = computed<string>(() => props.data.lat.toFixed(6))
 		const longitude = computed<string>(() => props.data.lon.toFixed(6))
+
 		const reportForm = ref<boolean>(false)
+		const reportMessage = ref<string>('')
+		const finishReportForm = async (send: boolean) => {
+			const message = reportMessage.value.trim()
+			if (!message.length && send) {
+				const toast = await toastController
+					.create({ message: 'No message!', position: 'bottom', duration: 1000, color: 'danger' })
+				await toast.present()
+				return
+			}
+			if (send) {
+				sendProblemReport(props.data.id, message)
+				const toast = await toastController
+					.create({ message: 'Thank you for your message.', position: 'bottom', duration: 2000, color: 'success' })
+				await toast.present()
+			}
+			reportForm.value = false
+			reportMessage.value = ''
+		}
 
 		// @ts-ignore
 		const binFullness = ref<number>(null)
 		loadFullness(props.data.id).then(fullness => binFullness.value = Math.round(fullness))
 
 		const closeModal = async () => await modalController.dismiss()
-
 
 		return {
 			closeOutline,
@@ -77,7 +107,9 @@ export default defineComponent({
 			reportForm,
 			latitude,
 			longitude,
-			binFullness
+			binFullness,
+			reportMessage,
+			finishReportForm
 		}
 	}
 })
@@ -130,5 +162,27 @@ export default defineComponent({
 		padding-bottom: 5px;
 	}
 
+	.report-form {
+		border-top: 1px solid rgba(0,0,0,0.3);
+		border-bottom: 1px solid rgba(0,0,0,0.3);
+		display: block;
+		overflow: hidden;
+		box-sizing: border-box;
+	}
 
+	.report-form .tall-btn {
+		width: 40%;
+		margin: 0 10px 10px;
+	}
+
+
+	.slide-enter-active, .slide-leave-active {
+		transition: max-height 500ms ease-out;
+	}
+
+	.slide-enter-from { max-height: 0; }
+	.slide-enter-to { max-height: 400px; }
+
+	.slide-leave-from { max-height: 400px; }
+	.slide-leave-to { max-height: 0; }
 </style>

@@ -22,7 +22,7 @@
 				<main-spinner class="main-spinner" v-if="!renderMap" />
 			</transition>
 
-			<azure-map v-if="renderMap" @selected="showBinDetail" />
+			<azure-map v-if="renderMap" @selected="showBinDetail" @change="onMapChange" />
 
 			<ion-fab vertical="bottom" horizontal="end" slot="fixed">
 				<ion-badge v-if="filteredTypesCount" color="secondary" class="filter-badge">{{ filteredTypesCount }}</ion-badge>
@@ -45,7 +45,7 @@ import ModalBinDetail from '@/components/ModalBinDetail.vue'
 import AzureMap from '@/components/AzureMap.vue'
 import MainSpinner from '@/components/MainSpinner.vue'
 import { useStore } from '@/store'
-import {DataPoint} from '@/store/store'
+import {DataPoint, MapChangePayload} from '@/store/store'
 
 export default defineComponent({
   name: 'Home',
@@ -101,13 +101,18 @@ export default defineComponent({
 			return modal.present()
 		}
 
+		const onMapChange = (payload: MapChangePayload): void => {
+			console.log(payload)
+		}
+
 		return {
 			helpCircleOutline,
 			funnelOutline,
 			showModal,
 			showBinDetail,
 			filteredTypesCount,
-			renderMap
+			renderMap,
+			onMapChange
 		}
 	}
 })

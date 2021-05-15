@@ -1,3 +1,5 @@
+import { DataPoint, GarbageTypeColors, MapViewBounds } from '@/store/store'
+import * as atlas from 'azure-maps-control'
 
 export const capitalize = (str: string): string => {
 	const first = str.charAt(0).toUpperCase()
@@ -15,4 +17,26 @@ export const loadFullness = (id: any): Promise<number> => {
 
 export const sendProblemReport = (id: any, message: string): void => {
 	// TODO implement
+}
+
+export const createMapViewBounds = (rawBounds: any): MapViewBounds => {
+	return {
+		lonBottomLeft: rawBounds[0],
+		latBottomLeft: rawBounds[1],
+		lonTopRight: rawBounds[2],
+		latTopRight: rawBounds[3]
+	}
+}
+
+export const generateMarkers = (points: DataPoint[], colors: GarbageTypeColors): any => {
+	return points.map((point: DataPoint) => {
+		const marker = new atlas.HtmlMarker({
+			// @ts-ignore
+			color: colors[point.type],
+			position: [point.lon, point.lat]
+		})
+		// @ts-ignore
+		marker['properties'] = point
+		return marker
+	})
 }

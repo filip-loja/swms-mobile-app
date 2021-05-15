@@ -6,6 +6,11 @@ body {
     margin: 0;
 }
 
+ion-toolbar {
+    --background: var(--ion-color-primary);
+    --color: var(--ion-color-primary-contrast);
+}
+
 .tall-btn {
     height: 50px;
 }

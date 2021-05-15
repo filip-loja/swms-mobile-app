@@ -18,7 +18,7 @@
 
 		<div class="img-container">
 			<img :src="imageSrc" />
-			<radial-progress :fullness="binFullness" v-if="binFullness" class="radial-progress" />
+			<radial-progress :fullness="binFullness" v-if="binFullness" class="radial-progress" :type="garbageType" />
 		</div>
 
 		<div class="garbage-type">
@@ -30,8 +30,8 @@
 			<div class="report-form" v-if="reportForm">
 				<ion-textarea placeholder="Write your message here" v-model="reportMessage" rows="6"></ion-textarea>
 				<ion-row class="ion-justify-content-center">
-					<ion-button :disabled="!reportForm" class="tall-btn" @click="finishReportForm(false)" color="warning">Cancel</ion-button>
-					<ion-button :disabled="!reportForm" class="tall-btn" @click="finishReportForm(true)" color="success">Send</ion-button>
+					<ion-button :disabled="!reportForm" class="tall-btn" @click="finishReportForm(false)" color="danger">Cancel</ion-button>
+					<ion-button :disabled="!reportForm" class="tall-btn" @click="finishReportForm(true)">Send</ion-button>
 				</ion-row>
 			</div>
 		</transition>

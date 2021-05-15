@@ -8,6 +8,7 @@ export const state: StateRoot = {
 		center: [18.620, 48.771],
 		maxBounds: new atlas.data.BoundingBox([18.591718, 48.759056], [18.652761, 48.792376])
 	},
+	loadedBounds: null,
 	garbageTypeDefs: {
 		'plastic': 'bin-icons/plastic.png',
 		'paper': 'bin-icons/paper.png',

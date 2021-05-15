@@ -102,7 +102,7 @@ export default defineComponent({
 		}
 
 		const onMapChange = (payload: MapChangePayload): void => {
-			console.log(payload)
+			store.dispatch('processMarkers', payload)
 		}
 
 		return {

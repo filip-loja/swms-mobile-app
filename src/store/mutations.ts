@@ -1,5 +1,5 @@
 
-import { StateRoot, TypeGarbage } from '@/store/store'
+import {MapViewBounds, StateRoot, TypeGarbage} from '@/store/store'
 
 export const SET_FILTER = (state: StateRoot, payload: TypeGarbage) => {
 	if (payload === null) {
@@ -12,4 +12,8 @@ export const SET_FILTER = (state: StateRoot, payload: TypeGarbage) => {
 			state.filteredGarbageTypes.splice(index, 1)
 		}
 	}
+}
+
+export const SET_BOUNDS = (state: StateRoot, bounds: MapViewBounds) => {
+	state.loadedBounds = { ...bounds }
 }

@@ -4,6 +4,7 @@ export type TypeGarbage = 'plastic' | 'paper' | 'glass' | 'metal' | 'mixed'
 export interface StateRoot {
 	azureKey: string;
 	defaultCamera: any;
+	loadedBounds: MapViewBounds | null;
 	garbageTypeDefs: GarbageTypeDef;
 	garbageTypeColors: GarbageTypeColors;
 	filteredGarbageTypes: TypeGarbage[];

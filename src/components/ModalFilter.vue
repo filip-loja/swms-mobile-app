@@ -38,6 +38,7 @@ import { defineComponent, computed } from 'vue'
 import { closeOutline } from 'ionicons/icons'
 import { useStore } from '@/store'
 import { GarbageTypeDef, TypeGarbage } from '@/store/store'
+import { capitalize } from '@/utils'
 
 export default defineComponent({
 	name: 'ModalFilter',
@@ -55,11 +56,6 @@ export default defineComponent({
 
 		const toggleFilter = (type: TypeGarbage) => {
 			store.commit('SET_FILTER', type)
-		}
-
-		const capitalize = (str: string): string => {
-			const first = str.charAt(0).toUpperCase()
-			return first + str.slice(1)
 		}
 
 		return {

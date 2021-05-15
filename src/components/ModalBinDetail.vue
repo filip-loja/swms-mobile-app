@@ -52,8 +52,9 @@ import { closeOutline } from 'ionicons/icons'
 import { useStore } from '@/store'
 import {DataPoint, GarbageTypeDef} from '@/store/store'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import {capitalize, loadFullness, sendProblemReport} from '@/utils'
+import {capitalize} from '@/utils'
 import RadialProgress from '@/components/RadialProgress.vue'
+import {loadFullness, sendProblemReport} from '@/http'
 
 export default defineComponent({
 	name: 'ModalBinDetail',

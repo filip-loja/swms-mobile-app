@@ -1,19 +1,6 @@
 import {DataPoint, GarbageTypeColors, MapViewBounds} from '@/store/store'
 import * as atlas from 'azure-maps-control'
 
-export const loadFullness = (id: any): Promise<number> => {
-	// TODO implement
-	return new Promise(resolve => {
-		setTimeout(() => {
-			resolve(Math.random() * 100)
-		}, 500)
-	})
-}
-
-export const sendProblemReport = (id: any, message: string): void => {
-	// TODO implement
-}
-
 export const capitalize = (str: string): string => {
 	const first = str.charAt(0).toUpperCase()
 	return first + str.slice(1)
@@ -31,10 +18,19 @@ export const createMapViewBounds = (rawBounds: any): MapViewBounds => {
 export const isWithinBounds = (loadedBounds: MapViewBounds | null, newBounds: MapViewBounds): boolean => {
 	if (loadedBounds === null) return false
 
-	const lonBottomLeftCheck = newBounds.lonBottomLeft >= loadedBounds.lonBottomLeft
-	const latBottomLeftCheck = newBounds.latBottomLeft >= loadedBounds.latBottomLeft
-	const lonTopRightCheck = newBounds.lonTopRight <= loadedBounds.lonTopRight
-	const latTopRightCheck = newBounds.latTopRight <= loadedBounds.latTopRight
+	const lonBottomLeftCheck = newBounds.lonBottomLeft >= (loadedBounds.lonBottomLeft - 0.0001)
+	const latBottomLeftCheck = newBounds.latBottomLeft >= (loadedBounds.latBottomLeft - 0.0001)
+	const lonTopRightCheck = newBounds.lonTopRight <= (loadedBounds.lonTopRight + 0.0001)
+	const latTopRightCheck = newBounds.latTopRight <= (loadedBounds.latTopRight + 0.0001)
+
+	return lonBottomLeftCheck && latBottomLeftCheck && lonTopRightCheck && latTopRightCheck
+}
+
+export const isPointWithinBounds = (mapViewBounds: MapViewBounds, point: DataPoint): boolean => {
+	const lonBottomLeftCheck = point.lon >= (mapViewBounds.lonBottomLeft - 0.0001)
+	const latBottomLeftCheck = point.lat >= (mapViewBounds.latBottomLeft - 0.0001)
+	const lonTopRightCheck = point.lon <= (mapViewBounds.lonTopRight + 0.0001)
+	const latTopRightCheck = point.lat <= (mapViewBounds.latTopRight + 0.0001)
 
 	return lonBottomLeftCheck && latBottomLeftCheck && lonTopRightCheck && latTopRightCheck
 }

@@ -7,7 +7,7 @@ export const garbageTypes = (state: StateRoot): TypeGarbage[] => {
 
 export const activePoints = (state: StateRoot): DataPoint[] => {
 	return state.loadedPoints.filter((point: DataPoint) => {
-		let filterCheck = false
+		let filterCheck: boolean
 		if (state.filteredGarbageTypes.length) {
 			filterCheck = state.filteredGarbageTypes.includes(point.type)
 		} else {

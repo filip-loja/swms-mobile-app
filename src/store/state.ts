@@ -24,8 +24,9 @@ export const state: StateRoot = {
 		'mixed': '#4E4C4A',
 	},
 	filteredGarbageTypes: [],
-	loadedPoints: [
-		{id: 1, lon: 18.620, lat: 48.771, type: 'plastic'},
-		{id: 2, lon: 18.621111, lat: 48.771, type: 'paper'}
-	]
+	loadedPoints: [],
+	// loadedPoints: [
+	// 	{id: 1, lon: 18.620, lat: 48.771, type: 'plastic'},
+	// 	{id: 2, lon: 18.621111, lat: 48.771, type: 'paper'}
+	// ]
 }

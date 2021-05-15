@@ -1,5 +1,5 @@
 
-import {MapViewBounds, StateRoot, TypeGarbage} from '@/store/store'
+import {DataPoint, MapViewBounds, StateRoot, TypeGarbage} from '@/store/store'
 
 export const SET_FILTER = (state: StateRoot, payload: TypeGarbage) => {
 	if (payload === null) {
@@ -16,4 +16,8 @@ export const SET_FILTER = (state: StateRoot, payload: TypeGarbage) => {
 
 export const SET_BOUNDS = (state: StateRoot, bounds: MapViewBounds) => {
 	state.loadedBounds = { ...bounds }
+}
+
+export const SET_POINTS = (state: StateRoot, points: DataPoint[]) => {
+	state.loadedPoints = [...points]
 }

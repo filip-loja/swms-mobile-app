@@ -95,7 +95,9 @@ export default defineComponent({
 
 		// @ts-ignore
 		const binFullness = ref<number>(null)
-		loadFullness(props.data.id).then(fullness => binFullness.value = Math.round(fullness))
+		loadFullness(props.data.id)
+			.then(fullness => binFullness.value = Math.round(fullness))
+			.catch(() => null)
 
 		const closeModal = async () => await modalController.dismiss()
 

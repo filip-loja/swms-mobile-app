@@ -1,7 +1,9 @@
-import {DataPoint, MapViewBounds} from '@/store/store'
+import { DataPoint, MapViewBounds } from '@/store/store'
+// TODO remove mock import when not needed
 // @ts-ignore
 import mockPoints from './points-mock.json'
-import {isPointWithinBounds} from '@/utils'
+import { isPointWithinBounds } from '@/utils'
+import { apiManager } from '@/main'
 
 export const loadPoints = (mapViewBounds: MapViewBounds): Promise<DataPoint[]> => {
 	// TODO implement
@@ -14,14 +16,19 @@ export const loadPoints = (mapViewBounds: MapViewBounds): Promise<DataPoint[]> =
 }
 
 export const loadFullness = (id: any): Promise<number> => {
-	// TODO implement
-	return new Promise(resolve => {
-		setTimeout(() => {
-			resolve(Math.random() * 100)
-		}, 500)
-	})
+	return apiManager.get(`bin/fullness/${id}`)
+		.then(resp => resp.data.data)
+		.catch(err => {
+			console.log(err);
+			return Promise.reject(err)
+		})
 }
 
-export const sendProblemReport = (id: any, message: string): void => {
-	// TODO implement
+export const sendProblemReport = (id: any, message: string): Promise<any> => {
+	return apiManager.post('bin/report', { id, message })
+		.then(resp => resp.data)
+		.catch(err => {
+			console.log(err);
+			return Promise.reject(err)
+		})
 }

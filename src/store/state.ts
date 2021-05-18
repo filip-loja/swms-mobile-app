@@ -1,9 +1,10 @@
 
 import { StateRoot } from '@/store/store'
 import * as atlas from 'azure-maps-control'
+import config from '@/config'
 
 export const state: StateRoot = {
-	azureKey: 'mn3NIsmVQt6m9sAHmQiPZUj_3u8Dp4wX9orZhXYICG0',
+	azureKey: config.AZURE_MAP_KEY,
 	defaultCamera: {
 		center: [18.620, 48.771],
 		maxBounds: new atlas.data.BoundingBox([18.591718, 48.759056], [18.652761, 48.792376])

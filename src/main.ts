@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store, { key } from './store'
+import axios from 'axios'
+import config from '@/config'
 
 import { IonicVue } from '@ionic/vue'
 
@@ -34,3 +36,10 @@ const app = createApp(App)
 router.isReady().then(() => {
   app.mount('#app')
 })
+
+
+export const apiManager = axios.create({
+	baseURL: config.MANAGER_API,
+	timeout: 10000
+})
+apiManager.defaults.headers.common['Authorization'] = config.MANAGER_API_KEY

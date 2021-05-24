@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "SWMS Mobile App",
+  "appId": "com.filip.sk",
+  "appName": "SWMS",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "dist",

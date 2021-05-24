@@ -84,7 +84,7 @@ export default defineComponent({
 				return
 			}
 			if (send) {
-				sendProblemReport(props.data.id, message)
+				sendProblemReport(props.data.id, props.data.type, message)
 				const toast = await toastController
 					.create({ message: 'Thank you for your message.', position: 'bottom', duration: 2000, color: 'success' })
 				await toast.present()

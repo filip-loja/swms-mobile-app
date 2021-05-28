@@ -18,7 +18,7 @@
 
 		<div class="img-container">
 			<img :src="imageSrc" />
-			<radial-progress :fullness="binFullness" v-if="binFullness" class="radial-progress" :type="garbageType" />
+			<radial-progress :fullness="binFullness" v-if="binFullness && binFullness > -1" class="radial-progress" :type="garbageType" />
 		</div>
 
 		<div class="garbage-type">

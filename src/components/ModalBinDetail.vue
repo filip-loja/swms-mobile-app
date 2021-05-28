@@ -84,7 +84,7 @@ export default defineComponent({
 				return
 			}
 			if (send) {
-				sendProblemReport(props.data.id, props.data.type, message)
+				sendProblemReport(props.data.binId, props.data.type, message)
 				const toast = await toastController
 					.create({ message: 'Thank you for your message.', position: 'bottom', duration: 2000, color: 'success' })
 				await toast.present()
@@ -95,7 +95,7 @@ export default defineComponent({
 
 		// @ts-ignore
 		const binFullness = ref<number>(null)
-		loadFullness(props.data.id)
+		loadFullness(props.data.binId)
 			.then(fullness => binFullness.value = Math.round(fullness))
 			.catch(() => null)
 

@@ -20,7 +20,7 @@ export interface GarbageTypeColors {
 }
 
 export interface DataPoint {
-	id: any;
+	binId: any;
 	lon: number;
 	lat: number;
 	type: TypeGarbage;

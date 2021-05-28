@@ -9,5 +9,6 @@
       "launchShowDuration": 0
     }
   },
-  "cordova": {}
+  "cordova": {},
+  "server": { "allowNavigation": [ "http://swms-manager-server.westeurope.azurecontainer.io:3000/" ] }
 }
